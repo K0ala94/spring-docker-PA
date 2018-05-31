@@ -1,0 +1,16 @@
+package hello;
+
+import org.springframework.beans.factory.annotation.Value;
+
+public class MQSender {
+
+	
+	@Value("${rabbitmq_server}")
+	private String mqServer;
+	@Value("${rabbitmq_port}")
+	private String port;
+	@Value("${rabbitmq_user}")
+	private String user;
+	@Value("${rabbitmq_pw}")
+	private String pw;
+}

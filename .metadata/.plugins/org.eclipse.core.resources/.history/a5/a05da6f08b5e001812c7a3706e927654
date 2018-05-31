@@ -1,0 +1,10 @@
+package log;
+
+import org.springframework.beans.factory.annotation.Value;
+
+public class LogMessageConsumer {
+	
+	@Value("${rabbitmq_server}")
+	private String MQServer;
+
+}

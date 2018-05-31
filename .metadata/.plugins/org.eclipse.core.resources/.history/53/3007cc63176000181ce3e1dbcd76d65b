@@ -1,0 +1,77 @@
+package hello;
+
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+
+
+@Service
+public class MQSender {
+
+	@Value("${rabbitmq_server}")
+	private String mqServer;
+	@Value("${rabbitmq_port}")
+	private String port;
+	@Value("${rabbitmq_user}")
+	private String user;
+	@Value("${rabbitmq_pw}")
+	private String pw;
+	@Value("${rabbitmq_loggingqueue}")
+	private String queueName;
+	
+	private Channel logChannel;
+	private Connection logConn;
+	
+	
+	public void sendLogMessage(String message) throws IOException, TimeoutException{
+		
+		if(logConn == null || logChannel == null || !logConn.isOpen() || !logChannel.isOpen()){
+			init();
+		}
+		
+		logChannel.queueDeclare(queueName, false, false, false, null);
+		logChannel.basicPublish("", queueName, null, message.getBytes());		
+	}
+	
+	
+	private void init(){
+		ConnectionFactory factory = new ConnectionFactory();
+		try{
+			factory.setHost(mqServer);	
+				
+			logConn = factory.newConnection();
+			logChannel = logConn.createChannel();
+			
+		}catch (Exception e) {
+			System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+			System.out.println("Unable to connect to mq server: " + mqServer + ":" + factory.getPort());
+			e.printStackTrace();
+		}
+	}
+	
+	@PreDestroy
+	private void cleanUp(){
+		try {
+			if(logConn != null){
+				logConn.close();
+			}
+			if(logChannel != null){
+				logChannel.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+}

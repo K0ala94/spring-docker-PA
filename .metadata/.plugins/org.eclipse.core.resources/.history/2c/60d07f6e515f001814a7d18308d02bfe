@@ -1,0 +1,14 @@
+spring.mvc.view.prefix = /WEB-INF/jsp/
+spring.mvc.view.suffix = .jsp
+
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://loggingdb:3306/accountant_logging
+#spring.datasource.url=jdbc:mysql://localhost:3306/accountant_logging
+spring.datasource.username=root
+spring.datasource.password=Pass1234
+
+rabbitmq_server=mqserver
+rabbitmq_port=5672
+rabbitmq_user=guest
+rabbitmq_pw=guest
+rabbitmq_loggingqueue=logging_queue
