@@ -1,0 +1,20 @@
+package log;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+public class LogMessageConsumer {
+	
+	@Autowired
+	private LogRepo logRepo;
+	
+	@Value("${rabbitmq_server}")
+	private String mqServer;
+	@Value("${rabbitmq_port}")
+	private String port;
+	@Value("${rabbitmq_user}")
+	private String user;
+	@Value("${rabbitmq_pw}")
+	private String pw;
+
+}
