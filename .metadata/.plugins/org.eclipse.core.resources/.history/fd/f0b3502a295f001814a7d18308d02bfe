@@ -1,7 +1,0 @@
-spring.mvc.view.prefix = /WEB-INF/jsp/
-spring.mvc.view.suffix = .jsp
-
-rabbitmq_server=mqserver
-rabbitmq_port=5672
-rabbitmq_user=guest
-rabbitmq_pw=guest
